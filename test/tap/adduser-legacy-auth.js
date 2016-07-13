@@ -62,7 +62,7 @@ test('npm login', function (t) {
       opts,
       function (err, code, stdout, stderr) {
         t.ifError(err, 'npm ran without issue')
-        t.notOk(code, 'exited OK')
+        t.equal(code, 0, 'exited OK')
         t.notOk(stderr, 'no error output')
         var config = fs.readFileSync(outfile, 'utf8')
         t.like(config, /:always-auth=false/, 'always-auth is scoped and false (by default)')
