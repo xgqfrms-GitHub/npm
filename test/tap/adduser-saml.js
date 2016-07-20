@@ -9,7 +9,12 @@ var common = require('../common-tap.js')
 
 var opts = { cwd: __dirname }
 var pkg = path.resolve(__dirname, 'adduser-saml')
-var outfile = path.resolve(pkg, '_npmrc')
+var fakeBrowser = path.resolve(pkg, '_script.sh')
+var configfile = path.resolve(pkg, '_npmrc')
+var outfile = path.resolve(pkg, '_outfile')
+var ssoUri = common.registry + '/-/saml/foo'
+
+common.pendIfWindows('This is trickier to convert without opening new shells')
 
 function mocks (server) {
   server.filteringRequestBody(function (r) {
@@ -17,65 +22,57 @@ function mocks (server) {
       return 'auth'
     }
   })
-  var authenticated = false
   server.put('/-/user/org.couchdb.user:npm_saml_auth_dummy_user', 'auth')
-    .reply(200, { token: 'foo', url: common.registry + '/-/saml/foo' })
-  server.get('/-/saml/foo', function () { authenticated = true })
-    .reply(200, {})
-  server.get(
-    '/-/whoami', 'auth'
-  ).many().reply(function () {
-    if (authenticated) {
-      return [201, { username: 'igotauthed' }]
-    } else {
-      return [401, {}]
-    }
-  })
+    .reply(201, { token: 'foo', sso: ssoUri })
 }
 
 test('setup', function (t) {
   mkdirp.sync(pkg)
-  fs.writeFileSync(outfile, '')
+  fs.writeFileSync(configfile, '')
+  var s = '#!/usr/bin/env bash\n' +
+          'echo \"$@\" > ' + outfile + '\n'
+  fs.writeFileSync(fakeBrowser, s, 'ascii')
+  fs.chmodSync(fakeBrowser, '0755')
+  t.pass('made script')
   t.end()
 })
 
 test('npm login', function (t) {
   mr({ port: common.port, plugin: mocks }, function (er, s) {
+    s.get(
+      '/-/whoami', { authorization: 'Bearer foo' }
+    ).max(1).reply(401, {})
     var runner = common.npm(
       [
         'login',
         '--registry', common.registry,
         '--auth-type=saml',
         '--loglevel', 'silent',
-        '--userconfig', outfile
+        '--userconfig', configfile,
+        '--browser', fakeBrowser
       ],
       opts,
       function (err, code, stdout, stderr) {
         t.ifError(err, 'npm ran without issue')
         t.equal(code, 0, 'exited OK')
         t.notOk(stderr, 'no error output')
-        var config = fs.readFileSync(outfile, 'utf8')
-        t.like(config, /:always-auth=false/, 'always-auth is scoped and false (by default)')
+        stderr && t.comment('stderr - ', stderr)
+        t.matches(stdout, /Logged in as igotauthed/,
+          'successfully authenticated and output the given username')
         s.close()
-        rimraf(outfile, function (err) {
-          t.ifError(err, 'removed config file OK')
-          t.end()
-        })
+        rimraf.sync(configfile)
+        rimraf.sync(outfile)
+        t.end()
       }
     )
 
-    var remaining = Object.keys(responses).length
+    var buf = ''
     runner.stdout.on('data', function (chunk) {
-      if (remaining > 0) {
-        remaining--
-
-        var label = chunk.toString('utf8').split(':')[0]
-        runner.stdin.write(responses[label])
-
-        if (remaining === 0) runner.stdin.end()
-      } else {
-        var message = chunk.toString('utf8').trim()
-        t.equal(message, 'Logged in as u on ' + common.registry + '/.')
+      buf += chunk.toString('utf8')
+      if (buf.match(/complete authentication/)) {
+        s.get(
+          '/-/whoami', { authorization: 'Bearer foo' }
+        ).reply(200, { username: 'igotauthed' })
       }
     })
   })
