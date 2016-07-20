@@ -132,6 +132,13 @@ even for `GET` requests.
 When "dev" or "development" and running local `npm shrinkwrap`,
 `npm outdated`, or `npm update`, is an alias for `--dev`.
 
+### auth-type
+
+* Default: `'legacy'`
+* Type: `'legacy'` or `'saml'`
+
+What authentication strategy to use with `adduser`/`login`.
+
 ### bin-links
 
 * Default: `true`
@@ -858,6 +865,14 @@ using `-s` to add a signature.
 
 Note that git requires you to have set up GPG keys in your git configs
 for this to work properly.
+
+### sso-poll-frequency
+
+* Default: 500
+* Type: Number
+
+When used with SSO-enabled `auth-type`s, configures how regularly the registry
+should be polled while the user is completing authentication.
 
 ### strict-ssl
 
