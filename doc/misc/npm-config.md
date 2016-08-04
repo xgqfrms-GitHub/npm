@@ -135,7 +135,7 @@ When "dev" or "development" and running local `npm shrinkwrap`,
 ### auth-type
 
 * Default: `'legacy'`
-* Type: `'legacy'` or `'saml'`
+* Type: `'legacy'`, `'sso'`, `'saml'`, `'oauth'`
 
 What authentication strategy to use with `adduser`/`login`.
 
