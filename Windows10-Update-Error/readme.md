@@ -1,4 +1,6 @@
-# update error
+# update error : 
+
+> Error: Refusing to install npm as a dependency of itself
 
 
 npm update npm@latest
