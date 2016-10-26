@@ -237,4 +237,22 @@ npm update npm@latest
 
 
 
-???
+# error: 不好使(not useful)
+
+$ npm install npm -g
+
+$ npm install npm@latest -g
+
+
+***************************************************************************************
+> https://github.com/npm/npm/issues/9695
+
+# --force install 超级好使！(super power)
+
+$ npm i npm -g -f
+$ npm install npm -g -f
+
+***************************************************************************************
+
+
+
