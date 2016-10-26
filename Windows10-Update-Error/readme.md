@@ -7,6 +7,82 @@ npm update npm@latest
 
 
 ```log
+0 info it worked if it ends with ok
+1 verbose cli [ 'H:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\xray\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'npm@latest',
+1 verbose cli   '-g' ]
+2 info using npm@3.3.3
+3 info using node@v6.9.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData npm@latest
+8 silly fetchNamedPackageData npm
+9 silly mapToRegistry name npm
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/npm
+13 verbose request uri https://registry.npmjs.org/npm
+14 verbose request no auth needed
+15 info attempt registry request try #1 at 04:47:58
+16 verbose request using bearer token for auth
+17 verbose request id eec47a5afa3440d0
+18 verbose etag "7XKEYLTC8BNUYGDI9E2UFM839"
+19 http request GET https://registry.npmjs.org/npm
+20 http 304 https://registry.npmjs.org/npm
+21 silly get cb [ 304,
+21 silly get   { 'cache-control': 'max-age=300',
+21 silly get     'accept-ranges': 'bytes',
+21 silly get     date: 'Wed, 26 Oct 2016 20:48:00 GMT',
+21 silly get     via: '1.1 varnish',
+21 silly get     connection: 'keep-alive',
+21 silly get     'x-served-by': 'cache-hkg6823-HKG',
+21 silly get     'x-cache': 'MISS',
+21 silly get     'x-cache-hits': '0',
+21 silly get     'x-timer': 'S1477514879.503329,VS0,VE957',
+21 silly get     vary: 'Accept-Encoding' } ]
+22 verbose etag https://registry.npmjs.org/npm from cache
+23 verbose get saving npm to C:\Users\xray\AppData\Roaming\npm-cache\registry.npmjs.org\npm\.cache.json
+24 silly install normalizeTree
+25 silly loadCurrentTree Finishing
+26 silly loadIdealTree Starting
+27 silly install loadIdealTree
+28 silly cloneCurrentTree Starting
+29 silly install cloneCurrentTreeToIdealTree
+30 silly cloneCurrentTree Finishing
+31 silly loadShrinkwrap Starting
+32 silly install loadShrinkwrap
+33 silly loadShrinkwrap Finishing
+34 silly loadAllDepsIntoIdealTree Starting
+35 silly install loadAllDepsIntoIdealTree
+36 silly rollbackFailedOptional Starting
+37 silly rollbackFailedOptional Finishing
+38 silly runTopLevelLifecycles Starting
+39 silly runTopLevelLifecycles Finishing
+40 silly install printInstalled
+41 verbose stack Error: Refusing to install npm as a dependency of itself
+41 verbose stack     at checkSelf (C:\Users\xray\AppData\Roaming\npm\node_modules\npm\lib\install\validate-args.js:40:14)
+41 verbose stack     at Array.<anonymous> (C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
+41 verbose stack     at LOOP (C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
+41 verbose stack     at chain (C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\chain.js:20:5)
+41 verbose stack     at C:\Users\xray\AppData\Roaming\npm\node_modules\npm\lib\install\validate-args.js:15:5
+41 verbose stack     at C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\async-map.js:52:35
+41 verbose stack     at Array.forEach (native)
+41 verbose stack     at C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\async-map.js:52:11
+41 verbose stack     at Array.forEach (native)
+41 verbose stack     at asyncMap (C:\Users\xray\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\async-map.js:51:8)
+42 verbose cwd C:\WINDOWS\system32
+43 error Windows_NT 10.0.14393
+44 error argv "H:\\Program Files\\nodejs\\node.exe" "C:\\Users\\xray\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "install" "npm@latest" "-g"
+45 error node v6.9.1
+46 error npm  v3.3.3
+47 error code ENOSELF
+48 error Refusing to install npm as a dependency of itself
+49 error If you need help, you may report this error at:
+49 error     <https://github.com/npm/npm/issues>
+50 verbose exit [ 1, true ]
 
 ``` 
 
